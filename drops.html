@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en-GB" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Srikanandiraju</title>
+  <meta name="description" content="Srikanandiraju — Interactive showcase featuring Apple Photos style floating top-to-bottom animations." />
+  <meta name="keywords" content="Srikanandiraju, portfolio, showcase, mobile apps, web design, CSS animation" />
+  <meta name="author" content="Srikanth Nandiraju" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Srikanandiraju" />
+  <meta property="og:title" content="Srikanandiraju" />
+  <meta property="og:description" content="Srikanandiraju — Interactive showcase featuring Apple Photos style floating top-to-bottom animations." />
+  <meta property="og:image" content="images/01-cancer-types.png" />
+  <meta property="og:locale" content="en_GB" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Srikanandiraju" />
+  <meta name="twitter:description" content="Srikanandiraju — Interactive showcase featuring Apple Photos style floating top-to-bottom animations." />
+  <meta name="twitter:image" content="images/01-cancer-types.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #000000;
+      --muted-fg: #666666;
+      --drops-glow: radial-gradient(circle, rgba(78, 155, 238, 0.08) 0%, rgba(52, 137, 254, 0.03) 40%, rgba(52, 137, 254, 0) 72%);
+      --drops-center-shade: radial-gradient(ellipse at center, hsla(0, 0%, 100%, 0.92) 0%, hsla(0, 0%, 100%, 0.76) 38%, hsla(0, 0%, 100%, 0.3) 64%, hsla(0, 0%, 100%, 0) 84%);
+      --drops-top-fade: linear-gradient(180deg, #ffffff 0%, hsla(0, 0%, 100%, 0.85) 35%, hsla(0, 0%, 100%, 0) 100%);
+      --drops-bottom-fade: linear-gradient(0deg, #ffffff 0%, hsla(0, 0%, 100%, 0.88) 32%, hsla(0, 0%, 100%, 0) 100%);
+      --toggle-bg: rgba(255, 255, 255, 0.85);
+      --toggle-border: rgba(0, 0, 0, 0.12);
+      --toggle-track: #e4e4e7;
+      --toggle-thumb: #ffffff;
+      --toggle-fg: #18181b;
+      color-scheme: light;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111111;
+        --fg: #ffffff;
+        --muted-fg: #dddde6;
+        --drops-glow: radial-gradient(circle, rgba(128, 255, 249, 0.08) 0%, rgba(78, 155, 238, 0.04) 40%, hsla(0, 0%, 7%, 0) 72%);
+        --drops-center-shade: radial-gradient(ellipse at center, hsla(0, 0%, 7%, 0.94) 0%, hsla(0, 0%, 7%, 0.8) 38%, hsla(0, 0%, 7%, 0.38) 64%, hsla(0, 0%, 7%, 0) 84%);
+        --drops-top-fade: linear-gradient(180deg, #111111 0%, hsla(0, 0%, 7%, 0.85) 35%, hsla(0, 0%, 7%, 0) 100%);
+        --drops-bottom-fade: linear-gradient(0deg, #111111 0%, hsla(0, 0%, 7%, 0.88) 32%, hsla(0, 0%, 7%, 0) 100%);
+        --toggle-bg: rgba(24, 24, 27, 0.8);
+        --toggle-border: rgba(255, 255, 255, 0.16);
+        --toggle-track: #27272a;
+        --toggle-thumb: #ffffff;
+        --toggle-fg: #f4f4f5;
+        color-scheme: dark;
+      }
+    }
+
+    /* Pure-CSS manual theme override (toggles opposite of OS preference) */
+    body:has(#theme-toggle:checked) {
+      --bg: #111111;
+      --fg: #ffffff;
+      --muted-fg: #dddde6;
+      --drops-glow: radial-gradient(circle, rgba(128, 255, 249, 0.08) 0%, rgba(78, 155, 238, 0.04) 40%, hsla(0, 0%, 7%, 0) 72%);
+      --drops-center-shade: radial-gradient(ellipse at center, hsla(0, 0%, 7%, 0.94) 0%, hsla(0, 0%, 7%, 0.8) 38%, hsla(0, 0%, 7%, 0.38) 64%, hsla(0, 0%, 7%, 0) 84%);
+      --drops-top-fade: linear-gradient(180deg, #111111 0%, hsla(0, 0%, 7%, 0.85) 35%, hsla(0, 0%, 7%, 0) 100%);
+      --drops-bottom-fade: linear-gradient(0deg, #111111 0%, hsla(0, 0%, 7%, 0.88) 32%, hsla(0, 0%, 7%, 0) 100%);
+      --toggle-bg: rgba(24, 24, 27, 0.8);
+      --toggle-border: rgba(255, 255, 255, 0.16);
+      --toggle-track: #27272a;
+      --toggle-thumb: #ffffff;
+      --toggle-fg: #f4f4f5;
+      color-scheme: dark;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:has(#theme-toggle:checked) {
+        --bg: #ffffff;
+        --fg: #000000;
+        --muted-fg: #666666;
+        --drops-glow: radial-gradient(circle, rgba(78, 155, 238, 0.08) 0%, rgba(52, 137, 254, 0.03) 40%, rgba(52, 137, 254, 0) 72%);
+        --drops-center-shade: radial-gradient(ellipse at center, hsla(0, 0%, 100%, 0.92) 0%, hsla(0, 0%, 100%, 0.76) 38%, hsla(0, 0%, 100%, 0.3) 64%, hsla(0, 0%, 100%, 0) 84%);
+        --drops-top-fade: linear-gradient(180deg, #ffffff 0%, hsla(0, 0%, 100%, 0.85) 35%, hsla(0, 0%, 100%, 0) 100%);
+        --drops-bottom-fade: linear-gradient(0deg, #ffffff 0%, hsla(0, 0%, 100%, 0.88) 32%, hsla(0, 0%, 100%, 0) 100%);
+        --toggle-bg: rgba(255, 255, 255, 0.85);
+        --toggle-border: rgba(0, 0, 0, 0.12);
+        --toggle-track: #e4e4e7;
+        --toggle-thumb: #ffffff;
+        --toggle-fg: #18181b;
+        color-scheme: light;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Top Header */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 20;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      pointer-events: none;
+    }
+
+    /* Shared Toggle Controls */
+    .toggle-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .theme-toggle,
+    .flip-toggle {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px 6px 12px;
+      border-radius: 9999px;
+      background: var(--toggle-bg);
+      border: 1px solid var(--toggle-border);
+      color: var(--toggle-fg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      user-select: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+    }
+
+    .theme-toggle:active,
+    .flip-toggle:active {
+      transform: scale(0.97);
+    }
+
+    .flip-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 24px;
+      z-index: 20;
+    }
+
+    .theme-toggle__icon {
+      width: 16px;
+      height: 16px;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle__icon--sun { display: none; }
+    .theme-toggle__icon--moon { display: block; }
+
+    @media (prefers-color-scheme: dark) {
+      .theme-toggle__icon--sun { display: block; }
+      .theme-toggle__icon--moon { display: none; }
+    }
+
+    body:has(#theme-toggle:checked) .theme-toggle__icon--sun { display: block; }
+    body:has(#theme-toggle:checked) .theme-toggle__icon--moon { display: none; }
+
+    @media (prefers-color-scheme: dark) {
+      body:has(#theme-toggle:checked) .theme-toggle__icon--sun { display: none; }
+      body:has(#theme-toggle:checked) .theme-toggle__icon--moon { display: block; }
+    }
+
+    .theme-toggle__track,
+    .flip-toggle__track {
+      position: relative;
+      width: 34px;
+      height: 20px;
+      border-radius: 9999px;
+      background: var(--toggle-track);
+      transition: background-color 0.25s ease;
+    }
+
+    .theme-toggle__thumb,
+    .flip-toggle__thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--toggle-thumb);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .theme-toggle__thumb { transform: translateX(14px); }
+    }
+
+    body:has(#theme-toggle:checked) .theme-toggle__thumb { transform: translateX(14px); }
+
+    @media (prefers-color-scheme: dark) {
+      body:has(#theme-toggle:checked) .theme-toggle__thumb { transform: translateX(0); }
+    }
+
+    body:has(#flip-toggle:checked) .flip-toggle__track {
+      background: #3489FE;
+    }
+
+    body:has(#flip-toggle:checked) .flip-toggle__thumb {
+      transform: translateX(14px);
+    }
+
+    /* Main Stage */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 640px;
+      overflow: hidden;
+      isolation: isolate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* =========================================================
+       APPLE PHOTOS / TV FLOATING DROPS ANIMATION
+       ========================================================= */
+    .drops-stage {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: var(--bg);
+      contain: layout paint style;
+      pointer-events: none;
+      z-index: 0;
+      animation: drops-reveal 0.6s ease-out both;
+    }
+
+    .drops-glow {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 900px;
+      height: 900px;
+      transform: translate(-50%, -50%);
+      background: var(--drops-glow);
+      filter: blur(18px);
+    }
+
+    .drop-card {
+      position: absolute;
+      top: 0;
+      left: var(--drop-x);
+      width: var(--drop-w);
+      height: var(--drop-h);
+      z-index: var(--drop-z, 2);
+      perspective: 900px;
+      will-change: transform, opacity;
+      animation: drop-fall var(--drop-duration) linear var(--drop-delay) infinite;
+    }
+
+    /* Depth layers: depth via scale and elevation shadow, zero washed-out opacity */
+    .drop-card--back {
+      --drop-z: 1;
+    }
+
+    .drop-card--mid {
+      --drop-z: 2;
+    }
+
+    .drop-card--front {
+      --drop-z: 3;
+    }
+
+    .drop-card__frame {
+      width: 100%;
+      height: 100%;
+      transform: rotate(var(--drop-tilt, 0deg));
+      transform-origin: center;
+    }
+
+    body:has(#flip-toggle:checked) .drop-card__frame {
+      animation: drop-flip-3d var(--flip-duration, 7s) linear infinite;
+    }
+
+    .drop-card__phone {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #1b1b1d;
+      border: 4px solid #1b1b1d;
+      border-radius: 24px;
+      box-shadow: 0 18px 42px hsla(0, 0%, 7%, 0.16), 0 4px 12px hsla(0, 0%, 7%, 0.08);
+      overflow: hidden;
+    }
+
+    .drop-card--front .drop-card__phone {
+      box-shadow: 0 28px 64px hsla(0, 0%, 7%, 0.24), 0 8px 20px hsla(0, 0%, 7%, 0.12);
+    }
+
+    .drop-card__phone img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 20px;
+    }
+
+    .drop-card__island {
+      position: absolute;
+      top: 7px;
+      left: 50%;
+      width: 30%;
+      height: 6px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: #000000;
+      z-index: 1;
+    }
+
+    /* Subtle edge fades only at top and bottom of viewport */
+    .drops-top-fade {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 10%;
+      background: var(--drops-top-fade);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .drops-bottom-fade {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 12%;
+      background: var(--drops-bottom-fade);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    @keyframes drop-fall {
+      0% {
+        transform: translate3d(calc(-50% + var(--drop-sway, 0px) * -1), -320px, 0);
+      }
+      50% {
+        transform: translate3d(calc(-50% + var(--drop-sway, 0px)), 50vh, 0);
+      }
+      100% {
+        transform: translate3d(calc(-50% + var(--drop-sway, 0px) * -1), calc(100vh + 320px), 0);
+      }
+    }
+
+    @keyframes drop-flip-3d {
+      0% { transform: rotate(var(--drop-tilt, 0deg)) rotateY(0deg); }
+      100% { transform: rotate(var(--drop-tilt, 0deg)) rotateY(360deg); }
+    }
+
+    @keyframes drops-reveal {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .drop-card,
+      .drops-stage,
+      body:has(#flip-toggle:checked) .drop-card__frame {
+        animation: none;
+      }
+    }
+
+    /* Center Placeholder */
+    .hero-center {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+    }
+
+    .center-placeholder {
+      width: 100%;
+      max-width: 360px;
+      min-height: 220px;
+      padding: 32px 24px;
+      border-radius: 20px;
+      border: 1.5px dashed rgba(128, 128, 128, 0.35);
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--muted-fg);
+      font-size: 15px;
+      font-weight: 500;
+      transition: background-color 0.25s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .center-placeholder {
+        background: rgba(17, 17, 17, 0.72);
+      }
+    }
+
+    body:has(#theme-toggle:checked) .center-placeholder {
+      background: rgba(17, 17, 17, 0.72);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:has(#theme-toggle:checked) .center-placeholder {
+        background: rgba(255, 255, 255, 0.72);
+      }
+    }
+
+    .center-placeholder__title {
+      color: var(--fg);
+      font-size: 18px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <input type="checkbox" id="theme-toggle" class="toggle-input" aria-label="Toggle dark and light mode" />
+  <input type="checkbox" id="flip-toggle" class="toggle-input" aria-label="Toggle 3D flip animation" />
+
+  <header class="site-header">
+    <label for="theme-toggle" class="theme-toggle" title="Toggle light/dark mode">
+      <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+      </svg>
+      <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+      </svg>
+      <span class="theme-toggle__track" aria-hidden="true">
+        <span class="theme-toggle__thumb"></span>
+      </span>
+    </label>
+  </header>
+
+  <section class="hero-section">
+    <!-- Apple Photos / Apple TV Floating Top-to-Bottom Drops -->
+    <div class="drops-stage" aria-hidden="true">
+      <div class="drops-glow"></div>
+
+      <!-- Lane 1 (7%, front, 24s cycle, 8s spacing) -->
+      <div class="drop-card drop-card--front" style="--drop-x: 7%; --drop-w: 124px; --drop-h: 260px; --drop-duration: 24s; --drop-delay: -2s; --drop-tilt: -1.5deg; --drop-sway: 6px; --flip-duration: 6s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/01-cancer-types.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--front" style="--drop-x: 7%; --drop-w: 124px; --drop-h: 260px; --drop-duration: 24s; --drop-delay: -10s; --drop-tilt: 1.5deg; --drop-sway: 6px; --flip-duration: 6s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/04-quiz-setup.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--front" style="--drop-x: 7%; --drop-w: 124px; --drop-h: 260px; --drop-duration: 24s; --drop-delay: -18s; --drop-tilt: -1deg; --drop-sway: 6px; --flip-duration: 6s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/07-quiz-history.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+
+      <!-- Lane 2 (21%, back, 36s cycle, 12s spacing) -->
+      <div class="drop-card drop-card--back" style="--drop-x: 21%; --drop-w: 96px; --drop-h: 201px; --drop-duration: 36s; --drop-delay: -5s; --drop-tilt: 1.8deg; --drop-sway: -5px; --flip-duration: 8s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/02-trending-news.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--back" style="--drop-x: 21%; --drop-w: 96px; --drop-h: 201px; --drop-duration: 36s; --drop-delay: -17s; --drop-tilt: -1.8deg; --drop-sway: -5px; --flip-duration: 8s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/05-quiz-question.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--back" style="--drop-x: 21%; --drop-w: 96px; --drop-h: 201px; --drop-duration: 36s; --drop-delay: -29s; --drop-tilt: 1.2deg; --drop-sway: -5px; --flip-duration: 8s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/08-saved-articles.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+
+      <!-- Lane 3 (35%, mid, 27s cycle, 9s spacing — passes behind left edge of center box) -->
+      <div class="drop-card drop-card--mid" style="--drop-x: 35%; --drop-w: 110px; --drop-h: 230px; --drop-duration: 27s; --drop-delay: -1s; --drop-tilt: -1.2deg; --drop-sway: 5px; --flip-duration: 7s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/03-quick-tips.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--mid" style="--drop-x: 35%; --drop-w: 110px; --drop-h: 230px; --drop-duration: 27s; --drop-delay: -10s; --drop-tilt: 1.4deg; --drop-sway: 5px; --flip-duration: 7s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/06-quiz-review.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--mid" style="--drop-x: 35%; --drop-w: 110px; --drop-h: 230px; --drop-duration: 27s; --drop-delay: -19s; --drop-tilt: -1.5deg; --drop-sway: 5px; --flip-duration: 7s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/09-notes.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+
+      <!-- Lane 4 (50%, back, 30s cycle, 10s spacing — passes directly behind center box) -->
+      <div class="drop-card drop-card--back" style="--drop-x: 50%; --drop-w: 102px; --drop-h: 214px; --drop-duration: 30s; --drop-delay: -3s; --drop-tilt: 1deg; --drop-sway: -4px; --flip-duration: 7.5s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/01-cancer-types.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--back" style="--drop-x: 50%; --drop-w: 102px; --drop-h: 214px; --drop-duration: 30s; --drop-delay: -13s; --drop-tilt: -1.2deg; --drop-sway: -4px; --flip-duration: 7.5s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/04-quiz-setup.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--back" style="--drop-x: 50%; --drop-w: 102px; --drop-h: 214px; --drop-duration: 30s; --drop-delay: -23s; --drop-tilt: 1.4deg; --drop-sway: -4px; --flip-duration: 7.5s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/07-quiz-history.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+
+      <!-- Lane 5 (65%, mid, 27s cycle, 9s spacing — passes behind right edge of center box) -->
+      <div class="drop-card drop-card--mid" style="--drop-x: 65%; --drop-w: 110px; --drop-h: 230px; --drop-duration: 27s; --drop-delay: -6s; --drop-tilt: 1.5deg; --drop-sway: -5px; --flip-duration: 7s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/02-trending-news.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--mid" style="--drop-x: 65%; --drop-w: 110px; --drop-h: 230px; --drop-duration: 27s; --drop-delay: -15s; --drop-tilt: -1.4deg; --drop-sway: -5px; --flip-duration: 7s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/05-quiz-question.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--mid" style="--drop-x: 65%; --drop-w: 110px; --drop-h: 230px; --drop-duration: 27s; --drop-delay: -24s; --drop-tilt: 1.2deg; --drop-sway: -5px; --flip-duration: 7s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/08-saved-articles.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+
+      <!-- Lane 6 (79%, front, 21s cycle, 7s spacing) -->
+      <div class="drop-card drop-card--front" style="--drop-x: 79%; --drop-w: 124px; --drop-h: 260px; --drop-duration: 21s; --drop-delay: -3s; --drop-tilt: -1.6deg; --drop-sway: 6px; --flip-duration: 6s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/03-quick-tips.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--front" style="--drop-x: 79%; --drop-w: 124px; --drop-h: 260px; --drop-duration: 21s; --drop-delay: -10s; --drop-tilt: 1.8deg; --drop-sway: 6px; --flip-duration: 6s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/06-quiz-review.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--front" style="--drop-x: 79%; --drop-w: 124px; --drop-h: 260px; --drop-duration: 21s; --drop-delay: -17s; --drop-tilt: -1.2deg; --drop-sway: 6px; --flip-duration: 6s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/09-notes.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+
+      <!-- Lane 7 (93%, back, 33s cycle, 11s spacing) -->
+      <div class="drop-card drop-card--back" style="--drop-x: 93%; --drop-w: 96px; --drop-h: 201px; --drop-duration: 33s; --drop-delay: -6s; --drop-tilt: 1.6deg; --drop-sway: -5px; --flip-duration: 8s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/01-cancer-types.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--back" style="--drop-x: 93%; --drop-w: 96px; --drop-h: 201px; --drop-duration: 33s; --drop-delay: -17s; --drop-tilt: -1.5deg; --drop-sway: -5px; --flip-duration: 8s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/04-quiz-setup.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+      <div class="drop-card drop-card--back" style="--drop-x: 93%; --drop-w: 96px; --drop-h: 201px; --drop-duration: 33s; --drop-delay: -28s; --drop-tilt: 1.4deg; --drop-sway: -5px; --flip-duration: 8s;">
+        <div class="drop-card__frame"><div class="drop-card__phone"><span class="drop-card__island"></span><img src="images/07-quiz-history.png" alt="" loading="eager" draggable="false" /></div></div>
+      </div>
+
+      <div class="drops-top-fade"></div>
+      <div class="drops-bottom-fade"></div>
+    </div>
+
+    <!-- Center Placeholder -->
+    <div class="hero-center">
+      <div class="center-placeholder">
+        <span class="center-placeholder__title">Center Content</span>
+        <span>Place your elements here</span>
+      </div>
+    </div>
+  </section>
+
+  <label for="flip-toggle" class="flip-toggle" title="Toggle 3D flip on floating cards">
+    <span>3D Flip</span>
+    <span class="flip-toggle__track" aria-hidden="true">
+      <span class="flip-toggle__thumb"></span>
+    </span>
+  </label>
+</body>
+</html>
