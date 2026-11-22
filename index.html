@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en-GB" dir="ltr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emergent – Build apps with AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #000000;
+      --muted-fg: #666666;
+      --google-bg: #262629;
+      --google-fg: #ffffff;
+      --primary-bg: #ffffff;
+      --primary-fg: #0e0e0e;
+      --primary-hover: #f3f3f3;
+      --auth-gradient: linear-gradient(90deg, #4E9BEE 0%, #57D5FE 58.5%, #3489FE 100%);
+      --orbit-glow: radial-gradient(circle, rgba(78, 155, 238, 0.07) 0%, rgba(52, 137, 254, 0.03) 38%, rgba(52, 137, 254, 0) 70%);
+      --orbit-center-shade: radial-gradient(ellipse at center, hsla(0, 0%, 100%, 0.92) 0%, hsla(0, 0%, 100%, 0.78) 36%, hsla(0, 0%, 100%, 0.34) 62%, hsla(0, 0%, 100%, 0) 82%);
+      --orbit-vignette: radial-gradient(ellipse 120% 120% at center, hsla(0, 0%, 100%, 0) 55%, hsla(0, 0%, 100%, 0.3) 100%);
+      --orbit-bottom-fade: linear-gradient(0deg, #ffffff 0%, hsla(0, 0%, 100%, 0.92) 24%, hsla(0, 0%, 100%, 0.5) 58%, hsla(0, 0%, 100%, 0) 100%);
+      --toggle-bg: rgba(255, 255, 255, 0.85);
+      --toggle-border: rgba(0, 0, 0, 0.12);
+      --toggle-track: #e4e4e7;
+      --toggle-thumb: #ffffff;
+      --toggle-fg: #18181b;
+      color-scheme: light;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111111;
+        --fg: #ffffff;
+        --muted-fg: #dddde6;
+        --google-bg: #ffffff;
+        --google-fg: #111112;
+        --primary-bg: #000000;
+        --primary-fg: #ffffff;
+        --primary-hover: #1c1c1e;
+        --auth-gradient: linear-gradient(90deg, #FFFFFF 0%, #81FF89 100%);
+        --orbit-glow: radial-gradient(circle, rgba(128, 255, 249, 0.08) 0%, rgba(78, 155, 238, 0.04) 38%, hsla(0, 0%, 7%, 0) 70%);
+        --orbit-center-shade: radial-gradient(ellipse at center, hsla(0, 0%, 7%, 0.94) 0%, hsla(0, 0%, 7%, 0.82) 36%, hsla(0, 0%, 7%, 0.42) 62%, hsla(0, 0%, 7%, 0) 82%);
+        --orbit-vignette: radial-gradient(ellipse 120% 120% at center, hsla(0, 0%, 7%, 0) 55%, hsla(0, 0%, 7%, 0.38) 100%);
+        --orbit-bottom-fade: linear-gradient(0deg, #111111 0%, hsla(0, 0%, 7%, 0.94) 24%, hsla(0, 0%, 7%, 0.54) 58%, hsla(0, 0%, 7%, 0) 100%);
+        --toggle-bg: rgba(24, 24, 27, 0.8);
+        --toggle-border: rgba(255, 255, 255, 0.16);
+        --toggle-track: #27272a;
+        --toggle-thumb: #ffffff;
+        --toggle-fg: #f4f4f5;
+        color-scheme: dark;
+      }
+    }
+
+    /* Pure-CSS manual theme override (toggles opposite of OS preference) */
+    body:has(#theme-toggle:checked) {
+      --bg: #111111;
+      --fg: #ffffff;
+      --muted-fg: #dddde6;
+      --google-bg: #ffffff;
+      --google-fg: #111112;
+      --primary-bg: #000000;
+      --primary-fg: #ffffff;
+      --primary-hover: #1c1c1e;
+      --auth-gradient: linear-gradient(90deg, #FFFFFF 0%, #81FF89 100%);
+      --orbit-glow: radial-gradient(circle, rgba(128, 255, 249, 0.08) 0%, rgba(78, 155, 238, 0.04) 38%, hsla(0, 0%, 7%, 0) 70%);
+      --orbit-center-shade: radial-gradient(ellipse at center, hsla(0, 0%, 7%, 0.94) 0%, hsla(0, 0%, 7%, 0.82) 36%, hsla(0, 0%, 7%, 0.42) 62%, hsla(0, 0%, 7%, 0) 82%);
+      --orbit-vignette: radial-gradient(ellipse 120% 120% at center, hsla(0, 0%, 7%, 0) 55%, hsla(0, 0%, 7%, 0.38) 100%);
+      --orbit-bottom-fade: linear-gradient(0deg, #111111 0%, hsla(0, 0%, 7%, 0.94) 24%, hsla(0, 0%, 7%, 0.54) 58%, hsla(0, 0%, 7%, 0) 100%);
+      --toggle-bg: rgba(24, 24, 27, 0.8);
+      --toggle-border: rgba(255, 255, 255, 0.16);
+      --toggle-track: #27272a;
+      --toggle-thumb: #ffffff;
+      --toggle-fg: #f4f4f5;
+      color-scheme: dark;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:has(#theme-toggle:checked) {
+        --bg: #ffffff;
+        --fg: #000000;
+        --muted-fg: #666666;
+        --google-bg: #262629;
+        --google-fg: #ffffff;
+        --primary-bg: #ffffff;
+        --primary-fg: #0e0e0e;
+        --primary-hover: #f3f3f3;
+        --auth-gradient: linear-gradient(90deg, #4E9BEE 0%, #57D5FE 58.5%, #3489FE 100%);
+        --orbit-glow: radial-gradient(circle, rgba(78, 155, 238, 0.07) 0%, rgba(52, 137, 254, 0.03) 38%, rgba(52, 137, 254, 0) 70%);
+        --orbit-center-shade: radial-gradient(ellipse at center, hsla(0, 0%, 100%, 0.92) 0%, hsla(0, 0%, 100%, 0.78) 36%, hsla(0, 0%, 100%, 0.34) 62%, hsla(0, 0%, 100%, 0) 82%);
+        --orbit-vignette: radial-gradient(ellipse 120% 120% at center, hsla(0, 0%, 100%, 0) 55%, hsla(0, 0%, 100%, 0.3) 100%);
+        --orbit-bottom-fade: linear-gradient(0deg, #ffffff 0%, hsla(0, 0%, 100%, 0.92) 24%, hsla(0, 0%, 100%, 0.5) 58%, hsla(0, 0%, 100%, 0) 100%);
+        --toggle-bg: rgba(255, 255, 255, 0.85);
+        --toggle-border: rgba(0, 0, 0, 0.12);
+        --toggle-track: #e4e4e7;
+        --toggle-thumb: #ffffff;
+        --toggle-fg: #18181b;
+        color-scheme: light;
+      }
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Top Header */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 20;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      pointer-events: none;
+    }
+
+    /* Top-right Theme Toggle */
+    .theme-toggle-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .theme-toggle {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px 6px 12px;
+      border-radius: 9999px;
+      background: var(--toggle-bg);
+      border: 1px solid var(--toggle-border);
+      color: var(--toggle-fg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.97);
+    }
+
+    .theme-toggle__icon {
+      width: 16px;
+      height: 16px;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle__icon--sun {
+      display: none;
+    }
+
+    .theme-toggle__icon--moon {
+      display: block;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .theme-toggle__icon--sun {
+        display: block;
+      }
+
+      .theme-toggle__icon--moon {
+        display: none;
+      }
+    }
+
+    body:has(#theme-toggle:checked) .theme-toggle__icon--sun {
+      display: block;
+    }
+
+    body:has(#theme-toggle:checked) .theme-toggle__icon--moon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:has(#theme-toggle:checked) .theme-toggle__icon--sun {
+        display: none;
+      }
+
+      body:has(#theme-toggle:checked) .theme-toggle__icon--moon {
+        display: block;
+      }
+    }
+
+    .theme-toggle__track,
+    .flip-toggle__track {
+      position: relative;
+      width: 34px;
+      height: 20px;
+      border-radius: 9999px;
+      background: var(--toggle-track);
+      transition: background-color 0.25s ease;
+    }
+
+    .theme-toggle__thumb,
+    .flip-toggle__thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--toggle-thumb);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .theme-toggle__thumb {
+        transform: translateX(14px);
+      }
+    }
+
+    body:has(#theme-toggle:checked) .theme-toggle__thumb {
+      transform: translateX(14px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:has(#theme-toggle:checked) .theme-toggle__thumb {
+        transform: translateX(0);
+      }
+    }
+
+    /* Bottom-right 3D Flip Toggle */
+    .flip-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 24px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px 6px 12px;
+      border-radius: 9999px;
+      background: var(--toggle-bg);
+      border: 1px solid var(--toggle-border);
+      color: var(--toggle-fg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      user-select: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+    }
+
+    .flip-toggle:active {
+      transform: scale(0.97);
+    }
+
+    body:has(#flip-toggle:checked) .flip-toggle__track {
+      background: #3489FE;
+    }
+
+    body:has(#flip-toggle:checked) .flip-toggle__thumb {
+      transform: translateX(14px);
+    }
+
+    /* Main Auth / Hero Section */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 640px;
+      overflow: hidden;
+      isolation: isolate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* =========================================================
+       RADIAL ORBIT ANIMATION (Exact match to app.emergent.sh)
+       ========================================================= */
+    .radial-orbit {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: transparent;
+      isolation: isolate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .radial-orbit__stage {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: var(--bg);
+      contain: layout paint style;
+      animation: radial-orbit-reveal 0.5s ease-out both;
+    }
+
+    .radial-orbit__glow {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 820px;
+      height: 820px;
+      transform: translate(-50%, -50%);
+      background: var(--orbit-glow);
+      filter: blur(12px);
+      pointer-events: none;
+    }
+
+    .radial-orbit__rings {
+      position: absolute;
+      inset: 0;
+    }
+
+    .radial-orbit__ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 0;
+      height: 0;
+      animation-name: radial-orbit-spin;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      will-change: transform;
+    }
+
+    /* Ring 0 stays hidden on standard viewports (matching the reference's b <= 1.22 center exclusion)
+       and appears on large/ultrawide displays where its radius clears the center stack. */
+    .radial-orbit__ring--0 {
+      --orbit-radius: max(19.2vw, 32vh);
+      --orbit-duration: 110s;
+      animation-duration: var(--orbit-duration);
+      display: none;
+    }
+
+    @media (min-width: 1850px) and (min-height: 1050px) {
+      .radial-orbit__ring--0 {
+        display: block;
+      }
+    }
+
+    .radial-orbit__ring--1 {
+      --orbit-radius: max(33vw, 55vh);
+      --orbit-duration: 88s;
+      animation-duration: var(--orbit-duration);
+    }
+
+    .radial-orbit__ring--2 {
+      --orbit-radius: max(49.8vw, 83vh);
+      --orbit-duration: 68s;
+      animation-duration: var(--orbit-duration);
+    }
+
+    .radial-orbit__card {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+      transform-origin: 0 0;
+      transform: rotate(var(--orbit-angle)) translateY(calc(var(--orbit-radius) * -1));
+      perspective: 900px;
+    }
+
+    .radial-orbit__frame {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: var(--orbit-width);
+      height: var(--orbit-height);
+      transform-origin: center;
+      transform: translate(-50%, -50%);
+      opacity: var(--orbit-opacity, 1);
+      transition: opacity 0.12s linear;
+    }
+
+    body:has(#flip-toggle:checked) .radial-orbit__frame {
+      animation: radial-orbit-flip-3d var(--orbit-duration) linear infinite;
+    }
+
+    @keyframes radial-orbit-flip-3d {
+      0% { transform: translate(-50%, -50%) rotateY(0deg); }
+      100% { transform: translate(-50%, -50%) rotateY(360deg); }
+    }
+
+    /* Browser Card Frame */
+    .radial-orbit__browser {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 7px;
+      box-shadow: 0 18px 44px hsla(0, 0%, 7%, 0.16), 0 4px 12px hsla(0, 0%, 7%, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .radial-orbit__browser-bar {
+      flex: 0 0 15px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      padding: 0 6px;
+      background: #f3f4f6;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    .radial-orbit__browser-bar i {
+      flex: 0 0 auto;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+    }
+
+    .radial-orbit__browser-bar i:first-child {
+      background: #ff5f56;
+    }
+
+    .radial-orbit__browser-bar i:nth-child(2) {
+      background: #ffbd2e;
+    }
+
+    .radial-orbit__browser-bar i:nth-child(3) {
+      background: #27c93f;
+    }
+
+    .radial-orbit__browser-bar span {
+      flex: 1;
+      height: 5px;
+      margin-left: 2px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.07);
+    }
+
+    .radial-orbit__browser-image {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #eef2f7 0%, #dde5f0 100%);
+    }
+
+    .radial-orbit__browser-image img,
+    .radial-orbit__phone img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    /* Phone Card Frame */
+    .radial-orbit__phone {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #1b1b1d;
+      border: 4px solid #1b1b1d;
+      border-radius: 24px;
+      box-shadow: 0 18px 44px hsla(0, 0%, 7%, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .radial-orbit__phone img {
+      border-radius: 20px;
+    }
+
+    .radial-orbit__phone-island {
+      position: absolute;
+      top: 7px;
+      left: 50%;
+      width: 30%;
+      height: 6px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: #000000;
+      z-index: 1;
+    }
+
+    /* Overlays */
+    .radial-orbit__center-shade,
+    .radial-orbit__vignette,
+    .radial-orbit__bottom-fade {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .radial-orbit__center-shade {
+      left: 50%;
+      top: 50%;
+      width: 760px;
+      height: 600px;
+      transform: translate(-50%, -50%);
+      background: var(--orbit-center-shade);
+    }
+
+    .radial-orbit__vignette {
+      inset: 0;
+      background: var(--orbit-vignette);
+    }
+
+    .radial-orbit__bottom-fade {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 54%;
+      background: var(--orbit-bottom-fade);
+    }
+
+    @keyframes radial-orbit-spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes radial-orbit-reveal {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes radial-auth-methods-reveal {
+      0% {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .radial-orbit__ring,
+      .radial-orbit__stage {
+        animation: none;
+      }
+
+      .radial-orbit__frame {
+        transition: none;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .radial-orbit {
+        display: none;
+      }
+    }
+
+    /* =========================================================
+       CENTER HERO & AUTH STACK
+       ========================================================= */
+    .hero-center {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+    }
+
+    .center-placeholder {
+      width: 100%;
+      max-width: 360px;
+      min-height: 220px;
+      padding: 32px 24px;
+      border-radius: 20px;
+      border: 1.5px dashed rgba(128, 128, 128, 0.3);
+      background: rgba(128, 128, 128, 0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--muted-fg);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .center-placeholder__title {
+      color: var(--fg);
+      font-size: 18px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="checkbox" id="theme-toggle" class="theme-toggle-input" aria-label="Toggle dark and light mode" />
+  <input type="checkbox" id="flip-toggle" class="theme-toggle-input" aria-label="Toggle 3D flip animation" />
+
+  <header class="site-header">
+    <label for="theme-toggle" class="theme-toggle" title="Toggle light/dark mode">
+      <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path
+          d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
+        </path>
+      </svg>
+      <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+      </svg>
+      <span class="theme-toggle__track" aria-hidden="true">
+        <span class="theme-toggle__thumb"></span>
+      </span>
+    </label>
+  </header>
+
+  <section class="hero-section" data-section="authentication">
+    <!-- Concentric Radial Orbit Animation -->
+    <div class="radial-orbit" aria-hidden="true" data-radial-orbit="true">
+      <div class="radial-orbit__stage">
+        <div class="radial-orbit__glow"></div>
+
+        <div class="radial-orbit__rings">
+          <!-- RING 0: 6 phone cards, duration 110s, scale 0.82 (105.0px x 219.8px) -->
+          <div class="radial-orbit__ring radial-orbit__ring--0">
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 18deg; --orbit-width: 105.0px; --orbit-height: 219.8px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/07-quiz-history.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 78deg; --orbit-width: 105.0px; --orbit-height: 219.8px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/08-saved-articles.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 138deg; --orbit-width: 105.0px; --orbit-height: 219.8px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/09-notes.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 198deg; --orbit-width: 105.0px; --orbit-height: 219.8px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/01-cancer-types.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 258deg; --orbit-width: 105.0px; --orbit-height: 219.8px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/02-trending-news.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 318deg; --orbit-width: 105.0px; --orbit-height: 219.8px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/03-quick-tips.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RING 1: 7 phone cards, duration 88s, scale 0.95 (121.6px x 254.6px) -->
+          <div class="radial-orbit__ring radial-orbit__ring--1">
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 8deg; --orbit-width: 121.6px; --orbit-height: 254.6px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/01-cancer-types.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 59.43deg; --orbit-width: 121.6px; --orbit-height: 254.6px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/02-trending-news.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 110.86deg; --orbit-width: 121.6px; --orbit-height: 254.6px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/03-quick-tips.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 162.29deg; --orbit-width: 121.6px; --orbit-height: 254.6px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/04-quiz-setup.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 213.71deg; --orbit-width: 121.6px; --orbit-height: 254.6px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/05-quiz-question.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 265.14deg; --orbit-width: 121.6px; --orbit-height: 254.6px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/06-quiz-review.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 316.57deg; --orbit-width: 121.6px; --orbit-height: 254.6px; --orbit-opacity: 1;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/07-quiz-history.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RING 2: 8 phone cards, duration 68s, scale 0.72, opacity 0.85 (92.2px x 193.0px) -->
+          <div class="radial-orbit__ring radial-orbit__ring--2">
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 14deg; --orbit-width: 92.2px; --orbit-height: 193.0px; --orbit-opacity: 0.85;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/08-saved-articles.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 59deg; --orbit-width: 92.2px; --orbit-height: 193.0px; --orbit-opacity: 0.85;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/09-notes.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 104deg; --orbit-width: 92.2px; --orbit-height: 193.0px; --orbit-opacity: 0.85;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/01-cancer-types.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 149deg; --orbit-width: 92.2px; --orbit-height: 193.0px; --orbit-opacity: 0.85;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/02-trending-news.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 194deg; --orbit-width: 92.2px; --orbit-height: 193.0px; --orbit-opacity: 0.85;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/03-quick-tips.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 239deg; --orbit-width: 92.2px; --orbit-height: 193.0px; --orbit-opacity: 0.85;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/04-quiz-setup.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 284deg; --orbit-width: 92.2px; --orbit-height: 193.0px; --orbit-opacity: 0.85;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/05-quiz-question.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+            <div class="radial-orbit__card"
+              style="--orbit-angle: 329deg; --orbit-width: 92.2px; --orbit-height: 193.0px; --orbit-opacity: 0.85;">
+              <div class="radial-orbit__frame">
+                <div class="radial-orbit__phone"><span class="radial-orbit__phone-island"></span><img
+                    src="images/06-quiz-review.png" alt="" loading="eager" draggable="false" /></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="radial-orbit__center-shade"></div>
+      <div class="radial-orbit__vignette"></div>
+      <div class="radial-orbit__bottom-fade"></div>
+    </div>
+
+    <!-- Center Placeholder -->
+    <div class="hero-center">
+      <div class="center-placeholder">
+        <span class="center-placeholder__title">Center Content</span>
+        <span>Place your elements here</span>
+      </div>
+    </div>
+  </section>
+
+  <label for="flip-toggle" class="flip-toggle" title="Toggle 3D flip on orbiting cards">
+    <span>3D Flip</span>
+    <span class="flip-toggle__track" aria-hidden="true">
+      <span class="flip-toggle__thumb"></span>
+    </span>
+  </label>
+</body>
+
+</html>
