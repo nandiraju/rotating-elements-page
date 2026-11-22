@@ -356,6 +356,7 @@
     .radial-orbit__ring--0 {
       --orbit-radius: max(19.2vw, 32vh);
       --orbit-duration: 110s;
+      --flip-duration: 10s;
       animation-duration: var(--orbit-duration);
       display: none;
     }
@@ -369,12 +370,14 @@
     .radial-orbit__ring--1 {
       --orbit-radius: max(33vw, 55vh);
       --orbit-duration: 88s;
+      --flip-duration: 8s;
       animation-duration: var(--orbit-duration);
     }
 
     .radial-orbit__ring--2 {
       --orbit-radius: max(49.8vw, 83vh);
       --orbit-duration: 68s;
+      --flip-duration: 6s;
       animation-duration: var(--orbit-duration);
     }
 
@@ -402,7 +405,7 @@
     }
 
     body:has(#flip-toggle:checked) .radial-orbit__frame {
-      animation: radial-orbit-flip-3d var(--orbit-duration) linear infinite;
+      animation: radial-orbit-flip-3d var(--flip-duration) linear infinite;
     }
 
     @keyframes radial-orbit-flip-3d {
